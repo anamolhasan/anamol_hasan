@@ -11,6 +11,7 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
+import Logo from "./share/Logo"
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -32,10 +33,11 @@ const Navbar = () => {
       <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
         
         {/* Logo */}
-        <Link href="/" className="group flex items-center gap-1">
-          <span className="text-2xl font-black tracking-tighter transition-transform group-hover:-rotate-2">
+        <Link href="/" >
+          {/* <span className="text-2xl font-black tracking-tighter transition-transform group-hover:-rotate-2">
             anam<span className="text-indigo-600">.dev</span>
-          </span>
+          </span> */}
+          <Logo />
         </Link>
 
         {/* Desktop Navigation */}
