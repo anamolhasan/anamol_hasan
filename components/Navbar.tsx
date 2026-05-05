@@ -11,7 +11,8 @@ import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
-import Logo from "./share/Logo"
+import AnimatedShinyText from "./shadcn-space/animated-text/animated-text-01"
+
 
 const navLinks = [
   { name: "Home", path: "/" },
@@ -26,6 +27,8 @@ const Navbar = () => {
   const [menuOpen, setMenuOpen] = useState(false)
   const { user } = useUser()
 
+  const navLogoText = 'Anamol Hasan'
+
   const role = user?.publicMetadata?.role
 
   return (
@@ -37,7 +40,7 @@ const Navbar = () => {
           {/* <span className="text-2xl font-black tracking-tighter transition-transform group-hover:-rotate-2">
             anam<span className="text-indigo-600">.dev</span>
           </span> */}
-          <Logo />
+          <AnimatedShinyText logoText={navLogoText}/>
         </Link>
 
         {/* Desktop Navigation */}
