@@ -16,8 +16,7 @@ const Banner = () => {
           alt="Anamol Hasan"
           width={450}
           height={600}
-          className="object-cover shadow-2xl transition duration-500 group-hover:scale-105
-    [clip-path:polygon(30%_0%,70%_0%,100%_30%,100%_70%,70%_100%,30%_100%,0%_70%,0%_30%)]"
+          className="object-cover shadow-2xl transition duration-500 group-hover:scale-105 [clip-path:polygon(50%_0%,83%_12%,100%_43%,94%_78%,68%_100%,32%_100%,6%_78%,0%_43%,17%_12%)]"
         />
 
         {/* Bottom Center Icon */}
