@@ -2,41 +2,70 @@
 
 import { Button } from "@/components/ui/button";
 import { Plus, Trash2 } from "lucide-react";
+import Image from "next/image";
 
 interface DynamicImagesInputProps {
   previews: string[];
-  onFilesChange: (files: File[]) => void;
-  onPreviewsChange: (previews: string[]) => void;
+
+  existingImages: string[];
+
+  onRemoveExistingImage: (index: number) => void;
+
+  onFilesChange: React.Dispatch<
+    React.SetStateAction<File[]>
+  >;
+
+  onPreviewsChange: React.Dispatch<
+    React.SetStateAction<string[]>
+  >;
 }
 
 export default function DynamicImagesInput({
   previews,
+  existingImages,
+  onRemoveExistingImage,
   onFilesChange,
   onPreviewsChange,
 }: DynamicImagesInputProps) {
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement>
-  ) => {
-    const files = Array.from(e.target.files || []);
 
-    if (!files.length) return;
+ const handleChange = (
+  e: React.ChangeEvent<HTMLInputElement>
+) => {
+  const files = Array.from(e.target.files || []);
 
-    const urls = files.map((file) =>
-      URL.createObjectURL(file)
-    );
+  if (!files.length) return;
 
-    onFilesChange(files);
+  const urls = files.map((file) =>
+    URL.createObjectURL(file)
+  );
 
-    onPreviewsChange([...previews, ...urls]);
+  onFilesChange((prev) => [...prev, ...files]);
 
-    e.target.value = "";
-  };
+  onPreviewsChange((prev) => [...prev, ...urls]);
 
-  const removeImage = (index: number) => {
-    const updated = previews.filter((_, i) => i !== index);
+  e.target.value = "";
+};
 
-    onPreviewsChange(updated);
-  };
+const removeImage = (index: number) => {
+  // Existing Cloudinary image
+   if (index < existingImages.length) {
+
+    onRemoveExistingImage(index);
+
+    return;
+  }
+
+  // Newly selected image
+  const newIndex = index - existingImages.length;
+
+  onFilesChange((prev) =>
+    prev.filter((_, i) => i !== newIndex)
+  );
+
+  onPreviewsChange((prev) =>
+    prev.filter((_, i) => i !== index)
+  );
+};
 
   return (
     <div className="space-y-4">
@@ -76,9 +105,11 @@ export default function DynamicImagesInput({
             key={index}
             className="relative overflow-hidden rounded-lg border"
           >
-            <img
+            <Image
               src={image}
-              alt=""
+              alt={`Project ${index + 1}`}
+              width={500}
+              height={300}
               className="h-44 w-full object-cover"
             />
 

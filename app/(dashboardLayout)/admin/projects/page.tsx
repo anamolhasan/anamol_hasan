@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useEffect, useState } from "react";
@@ -39,6 +40,7 @@ export default function ProjectsPage() {
       setIsLoading(true);
       const response = await fetch("/api/projects");
       const result = await response.json();
+      console.log(result.data);
 
       if (!response.ok) {
         setError(result.message || "Failed to fetch projects");

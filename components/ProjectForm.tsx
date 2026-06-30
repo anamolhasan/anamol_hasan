@@ -21,16 +21,11 @@ interface ProjectFormProps {
     _id: string;
     title: string;
     description: string;
-
     images: string[];
-
     liveLinks: LinkItem[];
-
     sourceCodes: LinkItem[];
-
     technologies: string[];
   };
-
   isEditing?: boolean;
 }
 
@@ -56,7 +51,19 @@ const [imageFiles, setImageFiles] = useState<File[]>([]);
 const [previews, setPreviews] = useState<string[]>(
   initialData?.images || []
 );
+const [existingImages, setExistingImages] = useState<string[]>(
+  initialData?.images || []
+);
 
+const removeExistingImage = (index: number) => {
+  setExistingImages((prev) =>
+    prev.filter((_, i) => i !== index)
+  );
+
+  setPreviews((prev) =>
+    prev.filter((_, i) => i !== index)
+  );
+};
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -74,48 +81,34 @@ const [previews, setPreviews] = useState<string[]>(
     }));
   };
 
-//   const handleImageChange = (
-//   e: React.ChangeEvent<HTMLInputElement>
-// ) => {
-//   const file = e.target.files?.[0];
-
-//   if (!file) return;
-
-//   setImageFile(file);
-
-//   setPreview(URL.createObjectURL(file));
-// };
-
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     setIsLoading(true);
     setError("");
 
-    let imageUrls: string[] = initialData?.images || [];
+    const imageUrls = [...existingImages];
 
-     if (imageFiles.length > 0) {
-  imageUrls = [];
+    if (imageFiles.length > 0) {
+      for (const file of imageFiles) {
+        const uploadFormData = new FormData();
 
-  for (const file of imageFiles) {
-    const formData = new FormData();
+        uploadFormData.append("file", file);
 
-    formData.append("file", file);
+        const response = await fetch("/api/upload", {
+          method: "POST",
+          body: uploadFormData,
+        });
 
-    const response = await fetch("/api/upload", {
-      method: "POST",
-      body: formData,
-    });
+        const result = await response.json();
 
-    const result = await response.json();
+        if (!response.ok) {
+          throw new Error(result.message);
+        }
 
-    if (!response.ok) {
-      throw new Error(result.message);
+        imageUrls.push(result.url);
+      }
     }
-
-    imageUrls.push(result.url);
-  }
-}
 
     try {
      const payload = {
@@ -191,34 +184,36 @@ const [previews, setPreviews] = useState<string[]>(
         </div>
 
        <DynamicImagesInput
-          previews={previews}
-          onFilesChange={setImageFiles}
-          onPreviewsChange={setPreviews}
-        />
+  previews={previews}
+  existingImages={existingImages}
+  onRemoveExistingImage={removeExistingImage}
+  onFilesChange={setImageFiles}
+  onPreviewsChange={setPreviews}
+/>
 
         <DynamicLinksInput
-  title="Live Links"
-  value={formData.liveLinks}
-  onChange={(links: LinkItem[]) =>
-    setFormData((prev) => ({
-      ...prev,
-      liveLinks: links,
-    }))
-  }
-/>
+          title="Live Links"
+          value={formData.liveLinks}
+          onChange={(links: LinkItem[]) =>
+            setFormData((prev) => ({
+              ...prev,
+              liveLinks: links,
+            }))
+          }
+        />
 
   
 
         <DynamicLinksInput
-  title="Source Codes"
-  value={formData.sourceCodes}
-  onChange={(links: LinkItem[]) =>
-    setFormData((prev) => ({
-      ...prev,
-      sourceCodes: links,
-    }))
-  }
-/>
+          title="Source Codes"
+          value={formData.sourceCodes}
+          onChange={(links: LinkItem[]) =>
+            setFormData((prev) => ({
+              ...prev,
+              sourceCodes: links,
+            }))
+          }
+        />
 
         <Input
           name="technologies"

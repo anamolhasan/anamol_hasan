@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import { useSearchParams } from "next/navigation";
@@ -6,6 +7,7 @@ import ProjectForm from "@/components/ProjectForm";
 
 export default function EditProjectPage() {
   const searchParams = useSearchParams();
+  console.log(searchParams)
   const projectId = searchParams.get("id");
   const [projectData, setProjectData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -22,6 +24,7 @@ export default function EditProjectPage() {
       try {
         const response = await fetch(`/api/projects/${projectId}`);
         const result = await response.json();
+        console.log(result)
 
         if (!response.ok) {
           setError(result.message || "Failed to fetch project");
@@ -29,15 +32,16 @@ export default function EditProjectPage() {
         }
 
         const data = result.data;
-        setProjectData({
-          _id: data._id,
-          title: data.title,
-          description: data.description,
-          image: data.image,
-          liveLink: data.liveLink,
-          sourceCode: data.sourceCode,
-          technologies: data.technologies.join(", "),
-        });
+
+          setProjectData({
+            _id: data._id,
+            title: data.title,
+            description: data.description,
+            images: data.images,
+            liveLinks: data.liveLinks,
+            sourceCodes: data.sourceCodes,
+            technologies: data.technologies,
+          });
       } catch (err: any) {
         setError(err.message || "An error occurred");
       } finally {

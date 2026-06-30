@@ -4,12 +4,15 @@ import connectToDatabase from "@/lib/mongoose";
 import Project from "@/models/Project";
 
 export async function GET(
-  request: NextRequest,
-  { params }: { params: { id: string } }
+   request: NextRequest,
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectToDatabase();
-    const project = await Project.findById(params.id);
+    const { id } = await params;
+
+  await connectToDatabase();
+
+  const project = await Project.findById(id);
 
     if (!project) {
       return NextResponse.json(
@@ -30,14 +33,17 @@ export async function GET(
 
 export async function PUT(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
+    const { id } = await params;
+
     await connectToDatabase();
+
     const body = await request.json();
 
-    const project = await Project.findByIdAndUpdate(
-      params.id,
+    const updatedProject = await Project.findByIdAndUpdate(
+      id,
       body,
       {
         new: true,
@@ -45,30 +51,47 @@ export async function PUT(
       }
     );
 
-    if (!project) {
+    if (!updatedProject) {
       return NextResponse.json(
-        { success: false, message: "Project not found" },
-        { status: 404 }
+        {
+          success: false,
+          message: "Project not found",
+        },
+        {
+          status: 404,
+        }
       );
     }
 
-    return NextResponse.json({ success: true, data: project });
+    return NextResponse.json({
+      success: true,
+      data: updatedProject,
+    });
   } catch (error: any) {
-    console.error("Error updating project:", error);
+    console.log(error);
+
     return NextResponse.json(
-      { success: false, message: error.message || "Failed to update project" },
-      { status: 400 }
+      {
+        success: false,
+        message: error.message,
+      },
+      {
+        status: 400,
+      }
     );
   }
 }
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Promise<{ id: string }> }
 ) {
   try {
-    await connectToDatabase();
-    const project = await Project.findByIdAndDelete(params.id);
+    const { id } = await params;
+
+  await connectToDatabase();
+
+  const project = await Project.findByIdAndDelete(id);
 
     if (!project) {
       return NextResponse.json(
