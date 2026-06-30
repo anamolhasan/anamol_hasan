@@ -3,9 +3,9 @@ import Link from 'next/link'
 import React from 'react'
 
 const DashboardLayout = ({
-    admin
+    children
 }:{
-    admin:React.ReactNode
+    children:React.ReactNode
 }) => {
   return (
     <div>
@@ -13,7 +13,7 @@ const DashboardLayout = ({
           <Link href={'/dashboard'} >Dashboard</Link>
         </div>
         <div>
-          {admin}
+          {children}
         </div>
     </div>
   )

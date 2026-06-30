@@ -147,3 +147,75 @@
   animation: marquee 18s linear infinite reverse;
   will-change: transform;
 }
+
+/* tiptap editor custom css */
+.ProseMirror blockquote {
+  border-left: 4px solid #d4d4d8;
+  padding-left: 1rem;
+  color: #71717a;
+}
+
+.ProseMirror pre {
+  background: #18181b;
+  color: white;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.ProseMirror a {
+  color: #2563eb;
+  text-decoration: underline;
+}
+
+.ProseMirror hr {
+  margin: 20px 0;
+}
+/* check */
+.ProseMirror {
+  min-height: 300px;
+  padding: 16px;
+  outline: none;
+}
+
+.ProseMirror h1 {
+  font-size: 2rem;
+  font-weight: 700;
+}
+
+.ProseMirror h2 {
+  font-size: 1.5rem;
+  font-weight: 700;
+}
+
+.ProseMirror ul {
+  list-style: disc;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror ol {
+  list-style: decimal;
+  padding-left: 1.5rem;
+}
+
+.ProseMirror p {
+  margin-bottom: 10px;
+}
+
+.ProseMirror img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 10px;
+  margin: 12px 0;
+}
+
+.ProseMirror img.ProseMirror-selectednode {
+  outline: 3px solid #3b82f6;
+}
+
+.ProseMirror p.is-editor-empty:first-child::before {
+  color: #9ca3af;
+  content: attr(data-placeholder);
+  float: left;
+  height: 0;
+  pointer-events: none;
+}

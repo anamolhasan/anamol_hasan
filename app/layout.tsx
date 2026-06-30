@@ -1,6 +1,6 @@
 import type { Metadata } from "next"
 import "./globals.css"
-import { ClerkProvider } from "@clerk/nextjs"
+import AppClerkProvider from "@/components/AppClerkProvider"
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
 
@@ -19,9 +19,9 @@ export default function RootLayout({
   return (
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
-        <ClerkProvider >
+        <AppClerkProvider>
           {children}
-        </ClerkProvider>
+        </AppClerkProvider>
       </body>
     </html>
   )
