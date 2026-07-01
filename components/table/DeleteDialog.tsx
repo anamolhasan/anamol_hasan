@@ -51,7 +51,10 @@ export default function DeleteDialog({
           </AlertDialogCancel>
 
           <AlertDialogAction
-            onClick={onConfirm}
+            onClick={async () => {
+              console.log("Delete clicked");
+              await onConfirm();
+            }}
           >
             Delete
           </AlertDialogAction>
