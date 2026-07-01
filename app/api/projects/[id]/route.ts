@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongoose";
 import Project from "@/models/Project";
+import cloudinary from "@/lib/cloudinary";
 
 export async function GET(
    request: NextRequest,
@@ -82,6 +83,14 @@ export async function PUT(
   }
 }
 
+const getPublicId = (url: string) => {
+  const part = url.split("/upload/")[1];
+
+  const withoutVersion = part.replace(/^v\d+\//, "");
+
+  return withoutVersion.replace(/\.[^/.]+$/, "");
+};
+
 export async function DELETE(
   request: NextRequest,
   { params }: { params: Promise<{ id: string }> }
@@ -91,7 +100,7 @@ export async function DELETE(
 
   await connectToDatabase();
 
-  const project = await Project.findByIdAndDelete(id);
+  const project = await Project.findById(id);
 
     if (!project) {
       return NextResponse.json(
@@ -99,6 +108,20 @@ export async function DELETE(
         { status: 404 }
       );
     }
+
+     // Delete every image from Cloudinary
+    if (project.images?.length) {
+      await Promise.all(
+        project.images.map((image: string) =>
+          cloudinary.uploader.destroy(
+            getPublicId(image)
+          )
+        )
+      );
+    }
+
+    // Delete project from MongoDB
+    await Project.findByIdAndDelete(id);
 
     return NextResponse.json({
       success: true,

@@ -16,10 +16,10 @@ import AnimatedShinyText from "./shadcn-space/animated-text/animated-text-01"
 
 const navLinks = [
   { name: "Home", path: "/" },
-  { name: "About", path: "/#about-me" },
-  { name: "Blog", path: "/#blog" },
-  { name: "Project", path: "/#project" },
-  { name: "Contact", path: "/#contact" },
+  { name: "About", path: "/about" },
+  { name: "Blog", path: "/blog" },
+  { name: "Project", path: "/project" },
+  { name: "Contact", path: "/contact" },
 ]
 
 const Navbar = () => {
@@ -32,7 +32,7 @@ const Navbar = () => {
   const role = user?.publicMetadata?.role
 
   return (
-    <nav className="fixed top-0 w-full z-50 border-b border-gray-200/50 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-xl transition-all">
+    <nav className="fixed top-0 w-full z-50 border-b border-green-300/50 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-xl transition-all">
       <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
         
         {/* Logo */}

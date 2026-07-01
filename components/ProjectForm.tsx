@@ -55,7 +55,13 @@ const [existingImages, setExistingImages] = useState<string[]>(
   initialData?.images || []
 );
 
+const [deletedImages, setDeletedImages] = useState<string[]>([]);
+
 const removeExistingImage = (index: number) => {
+  const removedImage = existingImages[index];
+
+  setDeletedImages((prev) => [...prev, removedImage]);
+
   setExistingImages((prev) =>
     prev.filter((_, i) => i !== index)
   );
@@ -80,6 +86,14 @@ const removeExistingImage = (index: number) => {
       description: value,
     }));
   };
+
+  const getPublicId = (url: string) => {
+      const part = url.split("/upload/")[1];
+
+      const withoutVersion = part.replace(/^v\d+\//, "");
+
+      return withoutVersion.replace(/\.[^/.]+$/, "");
+    };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -117,10 +131,13 @@ const removeExistingImage = (index: number) => {
       images: imageUrls,
       liveLinks: formData.liveLinks,
       sourceCodes: formData.sourceCodes,
-      technologies: formData.technologies
-        .split(",")
-        .map((item) => item.trim())
-        .filter(Boolean),
+      technologies:
+      typeof formData.technologies === "string"
+        ? formData.technologies
+            .split(",")
+            .map((item) => item.trim())
+            .filter(Boolean)
+        : formData.technologies,
     };
 
       const url = isEditing
@@ -141,6 +158,23 @@ const removeExistingImage = (index: number) => {
 
       if (!response.ok) {
         throw new Error(result.message);
+      }
+
+      // শুধুমাত্র Update এর সময়
+      if (isEditing && deletedImages.length > 0) {
+        await Promise.all(
+          deletedImages.map((url) =>
+            fetch("/api/cloudinary/delete", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                publicId: getPublicId(url),
+              }),
+            })
+          )
+        );
       }
 
       router.push("/admin/projects");
@@ -184,12 +218,12 @@ const removeExistingImage = (index: number) => {
         </div>
 
        <DynamicImagesInput
-  previews={previews}
-  existingImages={existingImages}
-  onRemoveExistingImage={removeExistingImage}
-  onFilesChange={setImageFiles}
-  onPreviewsChange={setPreviews}
-/>
+          previews={previews}
+          existingImages={existingImages}
+          onRemoveExistingImage={removeExistingImage}
+          onFilesChange={setImageFiles}
+          onPreviewsChange={setPreviews}
+        />
 
         <DynamicLinksInput
           title="Live Links"

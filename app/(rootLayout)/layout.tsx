@@ -9,7 +9,7 @@ const HomeLayout = ({
   return (
     <div>
       <Navbar />
-      <main className='container mx-auto'>
+      <main className='container mx-auto mt-20'>
             {children}
       </main>
     </div>
