@@ -19,13 +19,20 @@ export async function GET(request: NextRequest) {
       success: true, 
       data: projects 
     });
-  } catch (error) {
-    console.error("Error fetching projects:", error);
-    return NextResponse.json(
-      { success: false, message: "Failed to fetch projects" },
-      { status: 500 },
-    );
-  }
+  } catch (error: any) {
+  console.error("Error fetching projects:", error);
+
+  return NextResponse.json(
+    {
+      success: false,
+      message: error.message,
+      error,
+    },
+    {
+      status: 500,
+    }
+  );
+}
 }
 
 export async function POST(request: NextRequest) {

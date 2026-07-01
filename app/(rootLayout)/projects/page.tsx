@@ -1,29 +1,20 @@
 import ProjectCard from "@/components/project/ProjectCard";
+import connectToDatabase from "@/lib/mongoose";
+import ProjectModel from "@/models/Project";
+import { Project } from "@/types/project";
 
 
-interface LinkItem {
-  label: string;
-  url: string;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  images: string[];
-  liveLinks: LinkItem[];
-  sourceCodes: LinkItem[];
-  technologies: string[];
-}
 
 async function getProjects(): Promise<Project[]> {
-  const res = await fetch("http://localhost:3000/api/projects", {
-    cache: "no-store",
-  });
+  await connectToDatabase();
 
-  const data = await res.json();
+  const projects = await ProjectModel.find({})
+    .sort({ createdAt: -1 })
+    .lean();
 
-  return data.data;
+  return JSON.parse(
+    JSON.stringify(projects)
+  ) as Project[];
 }
 
  const ProjectsPage = async() => {

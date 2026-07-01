@@ -1,33 +1,20 @@
 
 import Link from "next/link";
 import ProjectCard from "@/components/project/ProjectCard";
+import { Project } from "@/types/project";
+import { connectToDatabase } from "@/lib/mongoose";
+import ProjectModals from "@/models/Project";
 
-interface LinkItem {
-  label: string;
-  url: string;
-}
-
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  images: string[];
-  liveLinks: LinkItem[];
-  sourceCodes: LinkItem[];
-  technologies: string[];
-}
 
 async function getLatestProjects(): Promise<Project[]> {
-  const res = await fetch(
-    "http://localhost:3000/api/projects?limit=4",
-    {
-      cache: "no-store",
-    }
-  );
+  await connectToDatabase();
 
-  const data = await res.json();
+  const projects = await ProjectModals.find({})
+    .sort({ createdAt: -1 })
+    .limit(4)
+    .lean();
 
-  return data.data;
+  return JSON.parse(JSON.stringify(projects));
 }
 
 export default async function HomeProjects() {
@@ -47,7 +34,7 @@ export default async function HomeProjects() {
       </div>
 
       <div className="grid gap-8 md:grid-cols-4 lg:grid-cols-4">
-        {projects.map((project) => (
+        {projects?.map((project) => (
           <ProjectCard
             key={project._id}
             project={project}

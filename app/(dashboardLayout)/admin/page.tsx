@@ -22,27 +22,34 @@ export default function AdminDashboardPage() {
   const [recentProjects, setRecentProjects] = useState<Project[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
-  useEffect(() => {
-    fetchDashboardData();
-  }, []);
 
-  const fetchDashboardData = async () => {
+useEffect(() => {
+  async function loadDashboard() {
     try {
       setIsLoading(true);
+
       const response = await fetch("/api/projects");
       const result = await response.json();
 
       if (response.ok) {
         const projects = result.data || [];
-        setStats((prev) => ({ ...prev, projects: projects.length }));
+
+        setStats((prev) => ({
+          ...prev,
+          projects: projects.length,
+        }));
+
         setRecentProjects(projects.slice(0, 5));
       }
     } catch (error) {
-      console.error("Error fetching dashboard data:", error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
-  };
+  }
+
+  loadDashboard();
+}, []);
 
   return (
     <div className="space-y-8">
@@ -139,7 +146,7 @@ export default function AdminDashboardPage() {
 
         {isLoading ? (
           <div className="p-6 text-center text-gray-600 dark:text-gray-400">
-            Loading...
+            Loading...llllllll
           </div>
         ) : recentProjects.length === 0 ? (
           <div className="p-6 text-center text-gray-600 dark:text-gray-400">

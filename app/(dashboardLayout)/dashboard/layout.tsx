@@ -8,9 +8,11 @@ const DashboardLayout = ({
     children:React.ReactNode
 }) => {
   return (
-    <div>
-        <div>
-          <Link href={'/dashboard'} >Dashboard</Link>
+    <div className='mt-24'>
+        <div className='flex justify-center items-center max-h-full max-w-full mx-auto'>
+          <Link href={'/'} >
+            <span className="text-xl font-bold text-green-500">Anamol Hasan</span>
+          </Link>
         </div>
         <div>
           {children}

@@ -17,7 +17,7 @@ import AnimatedShinyText from "./shadcn-space/animated-text/animated-text-01"
 const navLinks = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
-  { name: "Blog", path: "/blog" },
+  // { name: "Blog", path: "/blog" },
   { name: "Project", path: "/projects" },
   { name: "Contact", path: "/contact" },
 ]

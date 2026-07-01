@@ -5,34 +5,26 @@ import {
   ExternalLink,
 } from "lucide-react";
 import { FaGithub } from "react-icons/fa";
+import ProjectModel from "@/models/Project";
+import { Project } from "@/types/project";
+import { connectToDatabase } from "@/lib/mongoose";
 
-interface LinkItem {
-  label: string;
-  url: string;
-}
 
-interface Project {
-  _id: string;
-  title: string;
-  description: string;
-  images: string[];
-  liveLinks: LinkItem[];
-  sourceCodes: LinkItem[];
-  technologies: string[];
-}
 
-async function getProject(id: string): Promise<Project | null> {
-  const res = await fetch(`http://localhost:3000/api/projects/${id}`, {
-    cache: "no-store",
-  });
+async function getProject(
+  id: string
+): Promise<Project | null> {
+  await connectToDatabase();
 
-  if (!res.ok) {
+  const project = await ProjectModel.findById(id).lean();
+
+  if (!project) {
     return null;
   }
 
-  const data = await res.json();
-
-  return data.data;
+  return JSON.parse(
+    JSON.stringify(project)
+  ) as Project;
 }
 
 interface Props {
