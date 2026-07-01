@@ -18,7 +18,7 @@ const navLinks = [
   { name: "Home", path: "/" },
   { name: "About", path: "/about" },
   { name: "Blog", path: "/blog" },
-  { name: "Project", path: "/project" },
+  { name: "Project", path: "/projects" },
   { name: "Contact", path: "/contact" },
 ]
 
@@ -32,14 +32,11 @@ const Navbar = () => {
   const role = user?.publicMetadata?.role
 
   return (
-    <nav className="fixed top-0 w-full z-50 border-b border-green-300/50 dark:border-white/10 bg-white/80 dark:bg-neutral-950/80 backdrop-blur-xl transition-all">
+    <nav className="fixed top-0 w-full z-50 border-b border-green-300/50 dark:border-white/10  backdrop-blur-2xl transition-all">
       <div className="max-w-7xl mx-auto px-4 h-16 flex justify-between items-center">
         
         {/* Logo */}
         <Link href="/" >
-          {/* <span className="text-2xl font-black tracking-tighter transition-transform group-hover:-rotate-2">
-            anam<span className="text-indigo-600">.dev</span>
-          </span> */}
           <AnimatedShinyText logoText={navLogoText}/>
         </Link>
 

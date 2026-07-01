@@ -7,7 +7,7 @@ const Banner = () => {
   const downloadCv = "Download Resume";
   const downloadIcon = <Download />;
   return (
-    <section className="max-w-7xl mx-auto px-6 md:px-10 py-16 grid grid-cols-1 md:grid-cols-2 items-center gap-10">
+    <section className="max-w-7xl mx-auto px-6 md:px-10  grid grid-cols-1 md:grid-cols-2 items-center gap-10">
       {/* Left Side - Image */}
       <div className="flex justify-center md:justify-start relative group">
         {/* Main Image */}
@@ -41,7 +41,7 @@ const Banner = () => {
           &lt;span&gt;
           <span className="text-gray-800 dark:text-gray-200">
             {" "}
-            Hey, I&apos;m Anamol Hasan !
+            Hey, I&apos;m Anamol Hasan ! {' '}
           </span>
           &lt;/span&gt;
         </div>

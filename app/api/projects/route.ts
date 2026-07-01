@@ -3,23 +3,34 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongoose";
 import Project from "@/models/Project";
 
-export async function GET() {
+export async function GET(request: NextRequest) {
   try {
     await connectToDatabase();
-    const projects = await Project.find().sort({ createdAt: -1 });
-    return NextResponse.json({ success: true, data: projects });
+    const {searchParams} = new URL(request.url);
+    const limit = searchParams.get("limit");
+    let query = Project.find().sort({ createdAt: -1 });
+    if (limit) { 
+      query = query.limit(Number(limit)); 
+    } 
+    const projects = await query;
+
+    
+    return NextResponse.json({ 
+      success: true, 
+      data: projects 
+    });
   } catch (error) {
     console.error("Error fetching projects:", error);
     return NextResponse.json(
       { success: false, message: "Failed to fetch projects" },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 export async function POST(request: NextRequest) {
   try {
-    console.log('step 1: Received request to create project');
+    console.log("step 1: Received request to create project");
     await connectToDatabase();
     const body = await request.json();
     if (!body.title) {
@@ -28,7 +39,7 @@ export async function POST(request: NextRequest) {
           success: false,
           message: "Title is required",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -38,7 +49,7 @@ export async function POST(request: NextRequest) {
           success: false,
           message: "Description is required",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -48,7 +59,7 @@ export async function POST(request: NextRequest) {
           success: false,
           message: "Please upload at least one image",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -58,24 +69,24 @@ export async function POST(request: NextRequest) {
           success: false,
           message: "Please add at least one technology",
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
-    console.log('step 2: Project data received', body);
+    console.log("step 2: Project data received", body);
 
     const project = new Project(body);
     const savedProject = await project.save();
 
-    console.log('step 3: Project created successfully', savedProject);
+    console.log("step 3: Project created successfully", savedProject);
     return NextResponse.json(
       { success: true, data: savedProject },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (error: any) {
     console.error("Error creating project:", error);
     return NextResponse.json(
       { success: false, message: error.message || "Failed to create project" },
-      { status: 400 }
+      { status: 400 },
     );
   }
 }
