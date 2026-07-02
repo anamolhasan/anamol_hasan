@@ -80,7 +80,7 @@ const Navbar = () => {
               </SignInButton>
               
               <SignUpButton mode="modal">
-                <button className="px-6 py-2.5 bg-indigo-600 hover:bg-indigo-700 text-white rounded-full text-sm font-semibold shadow-lg shadow-indigo-500/25 transition-all cursor-pointer active:scale-95 flex items-center gap-2 group">
+                <button className="px-6 py-2.5 bg-green-200 hover:bg-green-700 text-green-700 hover:text-white rounded-full text-sm font-semibold shadow-lg shadow-green-500/25 transition-all cursor-pointer active:scale-95 flex items-center gap-2 group">
                   Get Started
                   <svg 
                     xmlns="http://www.w3.org/2000/svg" 
@@ -122,64 +122,63 @@ const Navbar = () => {
       </div>
 
       {/* Mobile Sidebar */}
-      <AnimatePresence>
-        {menuOpen && (
-          <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden bg-white dark:bg-neutral-950 border-b border-gray-100 dark:border-neutral-900 overflow-hidden"
+<AnimatePresence>
+  {menuOpen && (
+    <motion.div
+      initial={{ opacity: 0, height: 0 }}
+      animate={{ opacity: 1, height: "auto" }}
+      exit={{ opacity: 0, height: 0 }}
+      className="md:hidden bg-white dark:bg-neutral-950 border-b border-gray-100 dark:border-neutral-900 overflow-hidden"
+    >
+      <div className="px-4 pt-2 pb-8 space-y-1 max-h-[calc(100vh-4rem)] overflow-y-auto">
+        {navLinks.map((link) => (
+          <Link
+            key={link.path}
+            href={link.path}
+            onClick={() => setMenuOpen(false)}
+            className={`block px-4 py-3 rounded-xl text-base font-medium transition-all ${
+              pathname === link.path
+                ? "bg-indigo-50 text-green-600 dark:bg-indigo-900/20"
+                : "text-gray-600 dark:text-gray-600 hover:bg-gray-200 dark:hover:bg-white/5"
+            }`}
           >
-            <div className="px-4 pt-2 pb-8 space-y-1">
-              {navLinks.map((link) => (
-                <Link
-                  key={link.path}
-                  href={link.path}
-                  onClick={() => setMenuOpen(false)}
-                  className={`block px-4 py-3 rounded-xl text-base font-medium transition-all ${
-                    pathname === link.path 
-                    ? "bg-indigo-50 text-indigo-600 dark:bg-indigo-900/20" 
-                    : "text-gray-600 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-white/5"
-                  }`}
-                >
-                  {link.name}
-                </Link>
-              ))}
+            {link.name}
+          </Link>
+        ))}
 
-               {role === "admin" && (
-            <Link 
-              href="/admin" 
-              className="ml-4 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-green-500 border border-green-500/20 rounded-md bg-green-500/5 hover:bg-green-800 hover:text-white transition-all"
-            >
-              Admin
-            </Link>
-          )}
-              
-              <div className="pt-6 mt-4 border-t border-gray-100 dark:border-neutral-800 flex flex-col gap-3">
-                <Show when="signed-out">
-                  <SignInButton mode="modal">
-                    <button className="w-full py-3.5 text-center font-bold border border-gray-200 dark:border-white/10 rounded-2xl active:scale-[0.98] transition-all cursor-pointer hover:bg-gray-800">
-                      Log In
-                    </button>
-                  </SignInButton>
-                  <SignUpButton mode="modal">
-                    <button className="w-full py-3.5 bg-indigo-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-500/20 active:scale-[0.98] transition-all cursor-pointer hover:bg-indigo-800">
-                      Register
-                    </button>
-                  </SignUpButton>
-                </Show>
-                <Show when="signed-in">
-                  <div className="flex items-center gap-4 px-4 py-2 bg-indigo-50 dark:bg-indigo-900/10 rounded-2xl">
-                    <UserButton />
-                    <span className="font-semibold text-sm text-indigo-600">Active Session</span>
-                  </div>
-                </Show>
-              </div>
-            </div>
-
-          </motion.div>
+        {role === "admin" && (
+          <Link
+            href="/admin"
+            className="ml-4 px-3 py-1 text-[10px] font-bold uppercase tracking-widest text-green-500 border border-green-500/20 rounded-md bg-green-500/5 hover:bg-green-800 hover:text-white transition-all"
+          >
+            Admin
+          </Link>
         )}
-      </AnimatePresence>
+
+        <div className="pt-6 mt-4 border-t border-gray-100 dark:border-neutral-800 flex flex-col gap-3">
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button className="w-full py-3.5 text-center font-bold border border-gray-200 dark:border-white/10 rounded-2xl active:scale-[0.98] transition-all cursor-pointer hover:bg-gray-800 hover:text-white">
+                Log In
+              </button>
+            </SignInButton>
+            <SignUpButton mode="modal">
+              <button className="w-full py-3.5 bg-green-200 hover:bg-green-800 text-green-700 hover:text-white rounded-2xl font-bold shadow-lg shadow-green-500/20 active:scale-[0.98] transition-all cursor-pointer">
+                Register
+              </button>
+            </SignUpButton>
+          </Show>
+          <Show when="signed-in">
+            <div className="flex items-center gap-4 px-4 py-2 bg-green-200 dark:bg-green-900/10 rounded-2xl">
+              <UserButton />
+              <span className="font-semibold text-sm text-indigo-600">Active Session</span>
+            </div>
+          </Show>
+        </div>
+      </div>
+    </motion.div>
+  )}
+</AnimatePresence>
     </nav>
   )
 }

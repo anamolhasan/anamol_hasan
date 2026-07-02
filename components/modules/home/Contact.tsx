@@ -14,7 +14,7 @@ const ContactSection = () => {
 
         {/* Title */}
         <div className="mb-12 text-center">
-          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-500 to-green-600 bg-clip-text text-transparent">
+          <h2 className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-emerald-600 to-green-700 bg-clip-text text-transparent">
             Let&apos;s connect
           </h2>
           <p className="text-gray-500 mt-3 text-sm md:text-base">
@@ -78,10 +78,10 @@ const ContactSection = () => {
           {/* RIGHT CONTACT */}
           <div className="p-6 md:p-8 rounded-2xl border border-gray-200 bg-white shadow-xl flex flex-col justify-center gap-8">
 
-            <ContactInfoItem icon={<Phone />} label="Phone" value="+1-234-567-8901" />
-            <ContactInfoItem icon={<Mail />} label="Email" value="contact@botble.com" />
-            <ContactInfoItem icon={<X />} label="X (Twitter)" value="Botble Technologies" />
-            <ContactInfoItem icon={<MapPin />} label="Address" value="0811 Erdman Prairie, Joaville CA" />
+            <ContactInfoItem icon={<Phone />} label="Phone" value="+880 1950029882" />
+            <ContactInfoItem icon={<Mail />} label="Email" value="anamolhasan.job@gmail.com" />
+            <ContactInfoItem icon={<X />} label="X (Twitter)" value="RizqifyDB" />
+            <ContactInfoItem icon={<MapPin />} label="Address" value="Brahman-baria, Bangladesh" />
 
           </div>
 

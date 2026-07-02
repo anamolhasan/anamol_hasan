@@ -24,7 +24,7 @@ async function getProjects(): Promise<Project[]> {
     <section className="container mx-auto px-4 py-16">
 
       <div className="mb-10 text-center">
-        <h1 className="text-4xl font-bold">
+        <h1 className="text-4xl font-bold text-green-700">
           All Projects
         </h1>
 
