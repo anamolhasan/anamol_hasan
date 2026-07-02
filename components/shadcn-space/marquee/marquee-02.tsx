@@ -38,13 +38,6 @@ export default function MarqueeBrandsDemo() {
       height={40}
       className="object-contain"
     />
-            {/* <Image
-             src={brand.src}
-            alt={`logo-${brand.id}`}
-              width={40}
-              height={30}
-              className="object-contain hidden dark:block"
-            /> */}
           </div>
         ))}
       </Marquee>

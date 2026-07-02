@@ -1,4 +1,3 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 import mongoose from "mongoose";
 
 const MONGODB_URI = process.env.MONGODB_URI;
@@ -18,27 +17,31 @@ declare global {
   var _mongoose: Cached | undefined;
 }
 
-const cached: Cached = (global as any)._mongoose || { conn: null, promise: null };
+const cached: Cached = global._mongoose || { conn: null, promise: null };
+global._mongoose = cached;
 
 export async function connectToDatabase() {
-   console.log("Connecting MongoDB...");
   if (cached.conn) {
-     console.log("Using Cached Connection");
     return cached.conn;
   }
 
   if (!cached.promise) {
-     console.log("Creating New Connection");
-   cached.promise = mongoose.connect(MONGODB_URI ?? "")
-      .then((m) => {
-        console.log("Mongo Connected");
-        return m;
-      });
+    cached.promise = mongoose
+      .connect(MONGODB_URI ?? "", {
+        bufferCommands: false,
+        maxPoolSize: 10,
+        serverSelectionTimeoutMS: 5000,
+      })
+      .then((m) => m);
   }
 
-  cached.conn = await cached.promise;
-   console.log("Connected Successfully");
-  (global as any)._mongoose = cached;
+  try {
+    cached.conn = await cached.promise;
+  } catch (err) {
+    cached.promise = null;
+    throw err;
+  }
+
   return cached.conn;
 }
 

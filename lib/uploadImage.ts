@@ -12,7 +12,7 @@ export async function uploadImage(file: File) {
       },
       (error, result) => {
         if (error) {
-          console.error("Cloudinary Upload Error:", error);
+          // // console.error("Cloudinary Upload Error:", error);
           return reject(error);
         }
 

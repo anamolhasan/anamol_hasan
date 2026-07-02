@@ -17,7 +17,7 @@ export async function GET() {
       url: result.secure_url,
     });
   } catch (error: any) {
-    console.error(error);
+    // // console.error(error);
 
     return NextResponse.json(
       {

@@ -31,25 +31,25 @@ const handleDelete = async (id: string) => {
       method: "DELETE",
     });
 
-    console.log("Status:", response.status);
+    // // console.log("Status:", response.status);
 
     if (!response.ok) {
       throw new Error("Failed to delete project");
     }
 
     setProjects((prev) => {
-      console.log("Before:", prev.length);
+      // // console.log("Before:", prev.length);
 
       const updated = prev.filter(
         (project) => project._id !== id
       );
 
-      console.log("After:", updated.length);
+      // // console.log("After:", updated.length);
 
       return updated;
     });
   } catch (err) {
-    console.error(err);
+    // // console.error(err);
   }
 };
 

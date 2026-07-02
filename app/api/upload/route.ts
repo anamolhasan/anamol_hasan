@@ -15,7 +15,7 @@ export async function GET() {
       result,
     });
   } catch (error) {
-    console.error(error);
+    // // console.error(error);
 
     return NextResponse.json(
       {
@@ -58,7 +58,7 @@ export async function POST(req: NextRequest) {
       publicId: result.public_id,
     });
   } catch (error: any) {
-    console.error(error);
+    // // console.error(error);
 
     return NextResponse.json(
       {

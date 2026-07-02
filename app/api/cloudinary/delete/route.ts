@@ -11,17 +11,18 @@ export async function POST(req: NextRequest) {
       success: true,
       data: result,
     });
-  } catch (error) {
-    console.log(error);
+  } catch (error: unknown) {
+  // // console.error(error);
 
-    return NextResponse.json(
-      {
-        success: false,
-        message: "Failed to delete image",
-      },
-      {
-        status: 500,
-      }
-    );
-  }
+  return NextResponse.json(
+    {
+      success: false,
+      message: "Failed to delete image",
+      error: error instanceof Error ? error.message : "Unknown error",
+    },
+    {
+      status: 500,
+    }
+  );
+}
 }

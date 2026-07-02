@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   try {
-    console.log("step 1: Received request to create project");
+    // console.log("step 1: Received request to create project");
     await connectToDatabase();
     const body = await request.json();
     if (!body.title) {
@@ -79,18 +79,18 @@ export async function POST(request: NextRequest) {
         { status: 400 },
       );
     }
-    console.log("step 2: Project data received", body);
+    // console.log("step 2: Project data received", body);
 
     const project = new Project(body);
     const savedProject = await project.save();
 
-    console.log("step 3: Project created successfully", savedProject);
+    // // console.log("step 3: Project created successfully", savedProject);
     return NextResponse.json(
       { success: true, data: savedProject },
       { status: 201 },
     );
   } catch (error: any) {
-    console.error("Error creating project:", error);
+    // // console.error("Error creating project:", error);
     return NextResponse.json(
       { success: false, message: error.message || "Failed to create project" },
       { status: 400 },

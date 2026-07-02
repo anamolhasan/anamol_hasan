@@ -52,7 +52,7 @@ export default function DeleteDialog({
 
           <AlertDialogAction
             onClick={async () => {
-              console.log("Delete clicked");
+              // // console.log("Delete clicked");
               await onConfirm();
             }}
           >
