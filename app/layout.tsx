@@ -3,6 +3,7 @@ import "./globals.css"
 import AppClerkProvider from "@/components/AppClerkProvider"
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
+import LoaderProvider from "@/components/loader/LoaderProvider";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 
@@ -20,7 +21,9 @@ export default function RootLayout({
     <html lang="en" className={cn("font-sans", geist.variable)}>
       <body>
         <AppClerkProvider>
-          {children}
+          <LoaderProvider>
+            {children}
+          </LoaderProvider>
         </AppClerkProvider>
       </body>
     </html>
