@@ -3,6 +3,9 @@ import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongoose";
 import Project from "@/models/Project";
 import cloudinary from "@/lib/cloudinary";
+import { revalidatePath } from "next/cache";
+
+
 
 export async function GET(
    request: NextRequest,
@@ -64,6 +67,10 @@ export async function PUT(
       );
     }
 
+    revalidatePath("/");
+    revalidatePath("/projects");
+    revalidatePath(`/projects/${id}`);
+
     return NextResponse.json({
       success: true,
       data: updatedProject,
@@ -122,6 +129,10 @@ export async function DELETE(
 
     // Delete project from MongoDB
     await Project.findByIdAndDelete(id);
+
+    revalidatePath("/");
+    revalidatePath("/projects");
+    revalidatePath(`/projects/${id}`);
 
     return NextResponse.json({
       success: true,

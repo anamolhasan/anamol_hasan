@@ -3,7 +3,6 @@ import "./globals.css"
 import AppClerkProvider from "@/components/AppClerkProvider"
 import { Geist } from "next/font/google";
 import { cn } from "@/lib/utils";
-// import { TooltipProvider } from "@/components/ui/tooltip";
 
 const geist = Geist({subsets:['latin'],variable:'--font-sans'});
 

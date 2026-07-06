@@ -2,6 +2,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import connectToDatabase from "@/lib/mongoose";
 import Project from "@/models/Project";
+import { revalidatePath } from "next/cache";
 
 export async function GET(request: NextRequest) {
   try {
@@ -20,7 +21,7 @@ export async function GET(request: NextRequest) {
       data: projects 
     });
   } catch (error: any) {
-  console.error("Error fetching projects:", error);
+  // console.error( error);
 
   return NextResponse.json(
     {
@@ -83,6 +84,10 @@ export async function POST(request: NextRequest) {
 
     const project = new Project(body);
     const savedProject = await project.save();
+
+    revalidatePath("/");
+    revalidatePath("/projects");
+    revalidatePath(`/projects/${savedProject._id}`);
 
     // // console.log("step 3: Project created successfully", savedProject);
     return NextResponse.json(
