@@ -6,6 +6,7 @@ import Image from "next/image";
 const Banner = () => {
   const downloadCv = "Download Resume";
   const downloadIcon = <Download />;
+  const resumeLink = "https://drive.google.com/file/d/1aEfZRIEw-ggMY_KDv6A8lV42UB6APo9n/view";
   return (
     <section className="max-w-7xl mx-auto px-6 md:px-10  grid grid-cols-1 md:grid-cols-2 items-center gap-10">
       {/* Left Side - Image */}
@@ -89,6 +90,7 @@ const Banner = () => {
           <ButtonHeartbeatEffectDemo
             downloadCv={downloadCv}
             downloadIcon={downloadIcon}
+            resumeLink={resumeLink}
           />
         </div>
       </div>
