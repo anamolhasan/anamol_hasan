@@ -5,7 +5,7 @@ import { Project } from "@/types/project";
 import { connectToDatabase } from "@/lib/mongoose";
 import ProjectModals from "@/models/Project";
 
-
+export const dynamic = "force-dynamic";
 async function getLatestProjects(): Promise<Project[]> {
   await connectToDatabase();
 
